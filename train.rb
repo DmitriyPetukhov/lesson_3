@@ -1,34 +1,4 @@
-class Route
-
-  @@Begin_st = "Москва"
-  @@End_st = "Ленинград"
-  @@list_st = []
-
-  def initialize(name)
-    @name = name
-  end
-
-  def breed
-    @@list_st.unshift(@@Begin_st)
-    @@list_st.push(@@End_st)
-  end
-
-  def add
-    @@list_st << @name
-  end
-
-  def del
-    @@list_st.delete(@name)
-  end
-
-  def list
-    breed
-    @@list_st.each { |l| puts "#{l}" }
-  end
-end
-
-
-class Train < Route
+class Train
 
   def initialize(num, type, count_wagon)
     @num = num
@@ -56,27 +26,42 @@ class Train < Route
     def wagon_count
       @wagon_count = @count_wagon
     end
-    
+
     def wagon_up_down
+      @up = 0
+      @down = 0
       if @speed == 0
-      @count_wagon += 1 || @count_wagon -= 1
+        up += 1 || down -= 1
       end
+    end
+
+    def route(begin_st, end_st)
+      @begin_st = begin_st
+      @end_st = end_st
+      @list_st = []
+    end
+
+    def breed
+      @list_st.unshift(@begin_st)
+      @list_st.push(@end_st)
+    end
+
+    def add(name)
+      @name = name
+      @list_st << @name.new
+    end
+
+    def del
+      @list_st.delete(@name)
     end
 
     def list
-      @@list_st[0]
-      super
+      breed
+      @list_st.each { |l| puts "#{l}" }
     end
 
-    def moves(moves)
-      @moves = moves
-      @st = @@list_st.each_with_index(@name)
-      case @moves
-        when "вперед"  
-        @st += 1
-      when "назад"
-        @st -= 1
-      end
+    def moves(f = "вперед", b = "назад")
+      @forward = @list_st.index(@name) {|i| i += 1} if moves(f)
+      @back = @list_st.index(@name) {|i| i -= 1} if moves(b)
     end
-
 end

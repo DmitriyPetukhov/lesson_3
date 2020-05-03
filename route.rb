@@ -1,28 +1,29 @@
 class Route
+attr_accessor :@list_st, :name
+attr_reader :begin_st, :end_st
 
-  @@Begin_st = "Москва"
-  @@End_st = "Ленинград"
-  @@list_st = []
-
-  def initialize(name)
-    @name = name
+  def initialize(begin_st, end_st)
+    @begin_st = begin_st
+    @end_st = end_st
+    @list_st = []
   end
 
   def breed
-    @@list_st.unshift(@@Begin_st)
-    @@list_st.push(@@End_st)
+    @list_st.unshift(@begin_st)
+    @list_st.push(@end_st)
   end
 
-  def add
-    @@list_st << @name
+  def add(name)
+    @name = name
+    @list_st << @name.new
   end
 
   def del
-    @@list_st.delete(@name)
+    @list_st.delete(@name)
   end
 
   def list
     breed
-    @@list_st.each { |l| puts "#{l}" }
+    @list_st.each { |l| puts "#{l}" }
   end
 end
