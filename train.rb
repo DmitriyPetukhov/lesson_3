@@ -5,63 +5,61 @@ class Train
     @type = type
     @count_wagon = count_wagon
     @speed = 0
+    @route = []
   end
 
-  def speed_up
-    while @speed < 100
-      @speed += 10
-      puts "#{@speed}"
+  def speed_up(up_speed)
+    @up_speed = up_speed
+    while @speed < @up_speed
+      @speed += 1
     end
   end
 
-    def speed_down
-      until @speed == 0
-        @speed -= 10
-      end
-    end
-    def stop
-      @speed = 0
-    end
+  def speed(speed)
+    @speed = speed
+  end
 
-    def wagon_count
-      @wagon_count = @count_wagon
-    end
+  def count_wagon
+    @count_wagon
+  end
 
-    def wagon_up_down
-      @up = 0
-      @down = 0
-      if @speed == 0
-        up += 1 || down -= 1
-      end
+  def speed_down(down_speed = 0)
+    @down_speed = down_speed
+    until @speed == @down_speed
+      @speed -= 1
     end
+  end
 
-    def route(begin_st, end_st)
-      @begin_st = begin_st
-      @end_st = end_st
-      @list_st = []
-    end
+  def stop
+      @stop = 0
+  end
 
-    def breed
-      @list_st.unshift(@begin_st)
-      @list_st.push(@end_st)
-    end
+  def wagon_add(wagon_add = 1)
+    @wagon_add = wagon_add
+    @count_wagon += @add_wagon if @speed == 0
+  end
 
-    def add(name)
-      @name = name
-      @list_st << @name.new
-    end
+  def wagon_del(wagon_del = 1)
+    @wagon_del = wagon_del
+    @count_wagon -= @wagon_del if @speed == 0
+  end
 
-    def del
-      @list_st.delete(@name)
-    end
+  def route(*route)
+    @route = route
+    @station = @route[0]
+  end
 
-    def list
-      breed
-      @list_st.each { |l| puts "#{l}" }
-    end
+  def forward
+    f = @route.index(@station) + 1
+    @station = @route[f]
+  end
 
-    def moves(f = "вперед", b = "назад")
-      @forward = @list_st.index(@name) {|i| i += 1} if moves(f)
-      @back = @list_st.index(@name) {|i| i -= 1} if moves(b)
-    end
+  def backward
+    b = @route.index(@station) - 1
+    @station = @route[b]
+  end
+
+  def station
+    @station
+  end
 end
